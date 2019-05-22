@@ -129,7 +129,7 @@
    * @param {function} callback The callback to fire after dropping the data
    */
   Store.prototype.drop = function(callback) {
-    const todos = [];
+    let todos = [];
     localStorage.setItem(this._dbName, JSON.stringify(todos));
     callback.call(this, todos);
   };
