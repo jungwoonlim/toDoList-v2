@@ -1,6 +1,6 @@
-// jshint eqeqeq:false
+/*jshint eqeqeq:false */
 (function(window) {
-  "use strick";
+  "use strict";
 
   /**
    * Creates a new client side storage object and will create an empty
@@ -10,17 +10,17 @@
    * @param {function} callback Our fake DB uses callbacks because in
    * real life you probably would be making AJAX calls
    */
-
   function Store(name, callback) {
     callback = callback || function() {};
 
     this._dbName = name;
 
     if (!localStorage.getItem(name)) {
-      const todos = [];
+      let todos = [];
 
       localStorage.setItem(name, JSON.stringify(todos));
     }
+
     callback.call(this, JSON.parse(localStorage.getItem(name)));
   }
 
@@ -37,7 +37,6 @@
    *	 // hello: world in their properties
    * });
    */
-
   Store.prototype.find = function(query, callback) {
     if (!callback) {
       return;
@@ -45,18 +44,16 @@
 
     const todos = JSON.parse(localStorage.getItem(this._dbName));
 
-    callback(
-      call(
-        this,
-        todos.filter(function(todo) {
-          for (var q in query) {
-            if (query[q] !== todo[q]) {
-              return false;
-            }
+    callback.call(
+      this,
+      todos.filter(function(todo) {
+        for (const q in query) {
+          if (query[q] !== todo[q]) {
+            return false;
           }
-          return true;
-        })
-      )
+        }
+        return true;
+      })
     );
   };
 
@@ -65,7 +62,6 @@
    *
    * @param {function} callback The callback to fire upon retrieving data
    */
-
   Store.prototype.findAll = function(callback) {
     callback = callback || function() {};
     callback.call(this, JSON.parse(localStorage.getItem(this._dbName)));
@@ -79,7 +75,6 @@
    * @param {function} callback The callback to fire after saving
    * @param {number} id An optional param to enter an ID of an item to update
    */
-
   Store.prototype.save = function(updateData, callback, id) {
     const todos = JSON.parse(localStorage.getItem(this._dbName));
 
@@ -87,14 +82,15 @@
 
     // If an ID was actually given, find the item and update each property
     if (id) {
-      for (const i = 0; i < todos.length; i++) {
+      for (let i = 0; i < todos.length; i++) {
         if (todos[i].id === id) {
-          for (const key in updateData) {
+          for (let key in updateData) {
             todos[i][key] = updateData[key];
           }
           break;
         }
       }
+
       localStorage.setItem(this._dbName, JSON.stringify(todos));
       callback.call(this, todos);
     } else {
@@ -113,11 +109,10 @@
    * @param {number} id The ID of the item you want to remove
    * @param {function} callback The callback to fire after saving
    */
-
   Store.prototype.remove = function(id, callback) {
     const todos = JSON.parse(localStorage.getItem(this._dbName));
 
-    for (const i = 0; i < todos.length; i++) {
+    for (let i = 0; i < todos.length; i++) {
       if (todos[i].id == id) {
         todos.splice(i, 1);
         break;
@@ -133,7 +128,6 @@
    *
    * @param {function} callback The callback to fire after dropping the data
    */
-
   Store.prototype.drop = function(callback) {
     const todos = [];
     localStorage.setItem(this._dbName, JSON.stringify(todos));

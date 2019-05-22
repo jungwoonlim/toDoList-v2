@@ -7,7 +7,6 @@
    * @constructor
    * @param {object} storage A reference to the client side storage class
    */
-
   function Model(storage) {
     this.storage = storage;
   }
@@ -18,12 +17,11 @@
    * @param {string} [title] The title of the task
    * @param {function} [callback] The callback to fire after the model is created
    */
-
   Model.prototype.create = function(title, callback) {
     title = title || "";
     callback = callback || function() {};
 
-    const newItem = {
+    var newItem = {
       title: title.trim(),
       completed: false
     };
@@ -46,9 +44,8 @@
    * //Below will find a model with foo equalling bar and hello equalling world.
    * model.read({ foo: 'bar', hello: 'world' });
    */
-
   Model.prototype.read = function(query, callback) {
-    const queryType = typeof query;
+    var queryType = typeof query;
     callback = callback || function() {};
 
     if (queryType === "function") {
@@ -56,7 +53,7 @@
       return this.storage.findAll(callback);
     } else if (queryType === "string" || queryType === "number") {
       query = parseInt(query, 10);
-      this.storage.findAll({ id: query }, callback);
+      this.storage.find({ id: query }, callback);
     } else {
       this.storage.find(query, callback);
     }
@@ -70,7 +67,6 @@
    * @param {object} data The properties to update and their new value
    * @param {function} callback The callback to fire when the update is complete.
    */
-
   Model.prototype.update = function(id, data, callback) {
     this.storage.save(data, callback, id);
   };
@@ -81,7 +77,6 @@
    * @param {number} id The ID of the model to remove
    * @param {function} callback The callback to fire when the removal is complete.
    */
-
   Model.prototype.remove = function(id, callback) {
     this.storage.remove(id, callback);
   };
@@ -91,7 +86,6 @@
    *
    * @param {function} callback The callback to fire when the storage is wiped.
    */
-
   Model.prototype.removeAll = function(callback) {
     this.storage.drop(callback);
   };
@@ -99,9 +93,8 @@
   /**
    * Returns a count of all todos
    */
-
   Model.prototype.getCount = function(callback) {
-    const todos = {
+    var todos = {
       active: 0,
       completed: 0,
       total: 0
@@ -114,7 +107,8 @@
         } else {
           todos.active++;
         }
-        totos.total++;
+
+        todos.total++;
       });
       callback(todos);
     });
