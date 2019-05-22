@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/jungwoonlim/toDoList-v2/issues"
   },
-  "homepage": "https://github.com/jungwoonlim/toDoList-v2#readme"
+  "homepage": "https://github.com/jungwoonlim/toDoList-v2#readme",
+  "dependencies": {
+    "jasmine-core": "^3.4.0",
+    "todomvc-app-css": "^2.2.0",
+    "todomvc-common": "^1.0.5"
+  }
 }
